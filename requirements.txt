@@ -6,5 +6,7 @@ gensim==4.2.0
 scikit-learn==1.1.2
 matplotlib==3.6.0
 umap-learn==0.5.3
+fastapi==0.85.0
+uvicorn[standard]
 
 # conda install pytorch torchvision torchaudio -c pytorch
