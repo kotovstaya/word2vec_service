@@ -1,0 +1,1 @@
+git clone https://github.com/pandas-dev/pandas.git ./../git_clone/pandas
