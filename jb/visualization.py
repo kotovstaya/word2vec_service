@@ -12,22 +12,22 @@ def get_word2_vec_embeddings_as_array(corpus_path: str,
                                       model_path: str) -> np.array:
     model = Word2Vec.load(model_path)
 
-    corpus = preprocess_corpus(corpus_path, limit=None)
-    dict, invert_dict = get_dictionary(corpus)
+    # corpus = preprocess_corpus(corpus_path, limit=None)
+    # dict, invert_dict = get_dictionary(corpus)
 
-    valid_words = []
-    for ix, word in enumerate(dict.keys()):
-        try:
-            model.wv[word]
-            valid_words.append(word)
-        except:
-            pass
-    embeddings = np.zeros(shape=(len(valid_words), 150))
-    for ix, word in enumerate(valid_words):
-        try:
-            embeddings[ix] = model.wv[word]
-        except:
-            print(f"word: {word}")
+    # valid_words = []
+    # for ix, word in enumerate(dict.keys()):
+    #     try:
+    #         model.wv[word]
+    #         valid_words.append(word)
+    #     except:
+    #         pass
+    embeddings = model.wv.vocab #np.zeros(shape=(len(valid_words), 150))
+    # for ix, word in enumerate(valid_words):
+    #     try:
+    #         embeddings[ix] = model.wv[word]
+    #     except:
+    #         print(f"word: {word}")
     return embeddings
 
 
