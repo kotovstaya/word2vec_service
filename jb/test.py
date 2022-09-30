@@ -4,7 +4,6 @@ from preprocessing import preprocess_corpus, get_word_probability_dict
 
 
 def positive_sampling(corpus, window):
-    print(len(corpus))
     idx = np.random.choice(len(corpus), size=1)[0]
     line = corpus[idx]
     rnd_ixs = np.random.choice(range(window//2+1, len(line)-window//2-1), size=10, replace=False)
