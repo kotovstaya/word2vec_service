@@ -50,8 +50,6 @@ def get_windows(line, window) -> tp.List[tp.List[str]]:
 
 
 def positive_sampling(line, window, count_in_line):
-    # idx = np.random.choice(len(corpus), size=1)[0]
-    # line = corpus[idx]
     rnd_ixs = np.random.choice(range(window//2+1, len(line)-window//2-1), size=count_in_line, replace=False)
     pairs = []
     step = window//2
