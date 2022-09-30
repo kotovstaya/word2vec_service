@@ -2,3 +2,9 @@ numpy==1.23.3
 pandas==1.5.0
 requests==2.28.1
 Pygments==2.13.0
+gensim==4.2.0
+scikit-learn==1.1.2
+matplotlib==3.6.0
+umap-learn==0.5.3
+
+# conda install pytorch torchvision torchaudio -c pytorch

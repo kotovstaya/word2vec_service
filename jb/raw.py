@@ -94,7 +94,7 @@ class FilesMerger:
         self.BAD_FILES = set()
 
     def merge(self, entities: np.array) -> None:
-        self.file_descriptor.write(f"{','.join(entities)}\n")
+        self.file_descriptor.write(f"{' '.join(entities)}\n")
 
     def close(self) -> None:
         self.file_descriptor.close()
