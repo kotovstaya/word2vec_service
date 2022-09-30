@@ -1,6 +1,7 @@
 import typing as tp
 import gensim
 import itertools
+import tqdm
 from collections import Counter
 
 
@@ -8,7 +9,7 @@ def preprocess_corpus(path: str,
                       limit: tp.Optional[int] = None) -> tp.List[tp.List[str]]:
     corpus = []
     with open(path, "r") as f:
-        for ix, line in enumerate(f.readlines()):
+        for ix, line in tqdm.tqdm(enumerate(f.readlines())):
             if limit is not None and ix == limit:
                 break
             corpus.append(gensim.utils.simple_preprocess(line))
