@@ -1,5 +1,6 @@
 import typing as tp
 import numpy as np
+import torch
 import os
 from umap import UMAP
 import matplotlib.pyplot as plt
@@ -8,7 +9,7 @@ from gensim.models.word2vec import Word2Vec
 from preprocessing import get_dictionary, preprocess_corpus
 
 
-def get_word2_vec_embeddings_as_array(corpus_path: str,
+def get_word2vec_embeddings_as_array(corpus_path: str,
                                       model_path: str) -> np.array:
     model = Word2Vec.load(model_path)
 
@@ -28,6 +29,12 @@ def get_word2_vec_embeddings_as_array(corpus_path: str,
             embeddings[ix] = model.wv[word]
         except:
             print(f"word: {word}")
+    return embeddings
+
+
+def get_custom_word2vec_embeddings_as_array(model_path: str) -> np.array:
+    model = torch.load(model_path)
+    embeddings = model.get_embeddings()
     return embeddings
 
 
@@ -60,9 +67,14 @@ if __name__ == "__main__":
     root_folder = "./../data/"
     raw_corpus_fpath = os.path.join(root_folder, "raw_dataset.txt")
     model_fpath = os.path.join(root_folder, "word2vec_model")
+    custom_model_fpath = os.path.join(root_folder, "custom_word2vec_model")
     tsne_plot_fpath = os.path.join(root_folder, "tsne_2d_plot.png")
     umap_plot_fpath = os.path.join(root_folder, "umap_2d_plot.png")
-    w2v_embeddings = get_word2_vec_embeddings_as_array(raw_corpus_fpath, model_fpath)
+
+    # w2v_embeddings = get_word2vec_embeddings_as_array(raw_corpus_fpath, model_fpath)
+
+    w2v_embeddings = get_custom_word2vec_embeddings_as_array(custom_model_fpath)
+
     embeddings_tsn_2d = get_tsne_embeddings(w2v_embeddings, n_components=2)
     embeddings_umap_2d = get_umap_embeddings(w2v_embeddings, n_components=2)
     plot_representation(embeddings_tsn_2d, "TSNE embeddings", tsne_plot_fpath)

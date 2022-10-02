@@ -1,1 +1,1 @@
-uvicorn service:app --reload
+cd ./../service && uvicorn service:app --reload

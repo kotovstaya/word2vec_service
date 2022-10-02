@@ -4,6 +4,17 @@ import itertools
 import tqdm
 import numpy as np
 from collections import Counter
+import logging
+
+
+def get_logger(name):
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.INFO)
+    handler = logging.StreamHandler()
+    handler.setLevel(logging.WARNING)
+    handler.setFormatter(logging.Formatter('%(name)s - %(levelname)s - %(message)s'))
+    logger.addHandler(handler)
+    return logger
 
 
 def preprocess_corpus(path: str,
@@ -13,7 +24,9 @@ def preprocess_corpus(path: str,
         for ix, line in tqdm.tqdm(enumerate(f.readlines())):
             if limit is not None and ix == limit:
                 break
-            corpus.append(gensim.utils.simple_preprocess(line))
+            ll = gensim.utils.simple_preprocess(line)
+            if len(ll) > 15:
+                corpus.append(ll)
     return corpus
 
 
@@ -50,7 +63,8 @@ def get_windows(line, window) -> tp.List[tp.List[str]]:
 
 
 def positive_sampling(line, window, count_in_line):
-    rnd_ixs = np.random.choice(range(window//2+1, len(line)-window//2-1), size=count_in_line, replace=False)
+    # print(f"len(line): {len(line)}")
+    rnd_ixs = np.random.choice(range(window//2+1, len(line)-(window//2)-1), size=count_in_line, replace=False)
     pairs = []
     step = window//2
     for rnd_ix in rnd_ixs:

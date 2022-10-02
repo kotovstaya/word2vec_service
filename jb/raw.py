@@ -1,22 +1,13 @@
 import re
 import numpy as np
 import typing as tp
-import logging
 import os
 import pandas as pd
 
 import pygments
 from pygments.formatter import Formatter
 from pygments.lexers import get_lexer_for_filename
-
-
-def get_logger(name):
-    logger = logging.getLogger(name)
-    handler = logging.StreamHandler()
-    handler.setLevel(logging.WARNING)
-    handler.setFormatter(logging.Formatter('%(name)s - %(levelname)s - %(message)s'))
-    logger.addHandler(handler)
-    return logger
+from preprocessing import get_logger
 
 
 class FormatterProxy(Formatter):
@@ -157,7 +148,7 @@ class LocalRepositoryExtractor(BaseRepositoryExtractor):
 if __name__ == "__main__":
 
     data_folder = "./../data"
-    repository_path = "./../git_clone/pandas"
+    repository_path = "./../git_clone/repo"
 
     fm = FilesMerger(data_directory=data_folder,
                      raw_dataset_fpath="raw_dataset.txt",
