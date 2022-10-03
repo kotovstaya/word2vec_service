@@ -31,25 +31,24 @@ class NegativeSamplingWord2VecDataset(Dataset):
         pos_samples = positive_sampling(line, self.window, count)
         neg_samples = negative_sampling(self.freq_dictionary, pos_samples)
 
-        # print(f"len(pos_samples): {len(pos_samples)}")
-        # print(f"len(neg_samples): {len(neg_samples)}")
-
         X = np.zeros(shape=(len(pos_samples) + len(neg_samples), 2))
         y = np.zeros(shape=(len(pos_samples) + len(neg_samples),))
         for ix, pair in enumerate(pos_samples):
             X[ix, 0] = self.dictionary[pair[0]]
-            X[ix, 1] = self.dictionary[pair[0]]
+            X[ix, 1] = self.dictionary[pair[1]]
 
         for ix, pair in enumerate(neg_samples, len(pos_samples)):
             X[ix, 0] = self.dictionary[pair[0]]
-            X[ix, 1] = self.dictionary[pair[0]]
+            X[ix, 1] = self.dictionary[pair[1]]
 
         y[:len(pos_samples)] = 1
         y[len(pos_samples):] = 0
 
-        # print(f"X: {X.shape}")
-        # print(f"y: {y.shape}")
+        ixs = np.array(range(X.shape[0]))
+        np.random.shuffle(ixs)
 
         return (
-            torch.LongTensor(X[:,0][:, None]), torch.LongTensor(X[:,1][:, None]), torch.FloatTensor(y[:, None])
+            torch.LongTensor(X[ixs, 0][:, None]),
+            torch.LongTensor(X[ixs, 1][:, None]),
+            torch.FloatTensor(y[ixs, None])
         )

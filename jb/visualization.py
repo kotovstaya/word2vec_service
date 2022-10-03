@@ -71,9 +71,9 @@ if __name__ == "__main__":
     tsne_plot_fpath = os.path.join(root_folder, "tsne_2d_plot.png")
     umap_plot_fpath = os.path.join(root_folder, "umap_2d_plot.png")
 
-    # w2v_embeddings = get_word2vec_embeddings_as_array(raw_corpus_fpath, model_fpath)
+    w2v_embeddings = get_word2vec_embeddings_as_array(raw_corpus_fpath, model_fpath)
 
-    w2v_embeddings = get_custom_word2vec_embeddings_as_array(custom_model_fpath)
+    # w2v_embeddings = get_custom_word2vec_embeddings_as_array(custom_model_fpath)
 
     embeddings_tsn_2d = get_tsne_embeddings(w2v_embeddings, n_components=2)
     embeddings_umap_2d = get_umap_embeddings(w2v_embeddings, n_components=2)

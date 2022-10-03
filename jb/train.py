@@ -109,48 +109,46 @@ if __name__ == "__main__":
     dictionary, _ = get_dictionary(corpus)
     freq_dict = get_word_probability_dict(corpus)
 
-    # fbt = FromBoxTrainer(
-    #     vector_size=150,
+    fbt = FromBoxTrainer(
+        vector_size=150,
+        window=5,
+        min_count=50,
+        workers=5,
+        sg=1,
+        compute_loss=True,
+        progress_per=1,
+        report_delay=1,
+        epochs=50
+    )
+
+    fbt.train_model()
+    fbt.save_model(model_save_fpath)
+
+    # ds = NegativeSamplingWord2VecDataset(
+    #     corpus=corpus,
+    #     freq_dictionary=freq_dict,
+    #     dictionary=dictionary,
     #     window=5,
-    #     min_count=50,
-    #     workers=5,
-    #     sg=1,
-    #     compute_loss=True,
-    #     progress_per=1,
-    #     report_delay=1,
-    #     epochs=50
+    #     count_in_line=5,
     # )
     #
-    # fbt.train_model()
-    # fbt.save_model(model_save_fpath)
-
-    ds = NegativeSamplingWord2VecDataset(
-        corpus=corpus,
-        freq_dictionary=freq_dict,
-        dictionary=dictionary,
-        window=5,
-        count_in_line=10,
-    )
-
-
-    def my_collate(batch):
-        "Puts each data field into a tensor with outer dimension batch size"
-        batch_one = [el[0] for el in batch]
-        batch_two = [el[1] for el in batch]
-        batch_three = [el[2] for el in batch]
-        return (
-            torch.concat(batch_one, dim=0),
-            torch.concat(batch_two, dim=0),
-            torch.concat(batch_three, dim=0)
-        )
-
-    dataloader = DataLoader(ds, batch_size=40, shuffle=True, collate_fn=my_collate)
-    ct = CustomTrainer(
-        dataloader=dataloader,
-        vocab_size=len(dictionary.keys()),
-        emb_dim=100,
-        lr=1e-4,
-        epochs=10
-    )
-    ct.train_model()
-    ct.save_model(custom_model_save_fpath)
+    # def my_collate(batch):
+    #     a = [el[0] for el in batch]
+    #     b = [el[1] for el in batch]
+    #     c = [el[2] for el in batch]
+    #     return (
+    #         torch.concat(a, dim=0),
+    #         torch.concat(b, dim=0),
+    #         torch.concat(c, dim=0)
+    #     )
+    #
+    # dataloader = DataLoader(ds, batch_size=30, shuffle=True, collate_fn=my_collate, num_workers=0)
+    # ct = CustomTrainer(
+    #     dataloader=dataloader,
+    #     vocab_size=len(dictionary.keys()),
+    #     emb_dim=100,
+    #     lr=1e-4,
+    #     epochs=30
+    # )
+    # ct.train_model()
+    # ct.save_model(custom_model_save_fpath)

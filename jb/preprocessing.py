@@ -12,13 +12,15 @@ def get_logger(name):
     logger.setLevel(logging.INFO)
     handler = logging.StreamHandler()
     handler.setLevel(logging.WARNING)
-    handler.setFormatter(logging.Formatter('%(name)s - %(levelname)s - %(message)s'))
+    handler.setFormatter(
+        logging.Formatter('%(name)s - %(levelname)s - %(message)s'))
     logger.addHandler(handler)
     return logger
 
 
 def preprocess_corpus(path: str,
-                      limit: tp.Optional[int] = None) -> tp.List[tp.List[str]]:
+                      limit: tp.Optional[int] = None
+                      ) -> tp.List[tp.List[str]]:
     corpus = []
     with open(path, "r") as f:
         for ix, line in tqdm.tqdm(enumerate(f.readlines())):
@@ -49,27 +51,15 @@ def get_word_probability_dict(corpus: tp.List[tp.List[str]]):
     return {k: v/N for k, v in tmp_freq_dict.items()}
 
 
-def get_windows(line, window) -> tp.List[tp.List[str]]:
-    if len(line) < window:
-        raise Exception(
-            f"line size ({len(line)})" 
-            f"is lower than window size ({window})")
-    elif len(line) == window:
-        return line
-    else:
-        return [line[ix:ix+window]
-                for ix in range(len(line)-window)
-                if len(line[ix:ix+window]) == window]
-
-
 def positive_sampling(line, window, count_in_line):
-    # print(f"len(line): {len(line)}")
-    rnd_ixs = np.random.choice(range(window//2+1, len(line)-(window//2)-1), size=count_in_line, replace=False)
+    rnd_ixs = np.random.choice(
+        range(window//2+1, len(line)-(window//2)-1),
+        size=count_in_line, replace=False)
     pairs = []
     step = window//2
     for rnd_ix in rnd_ixs:
         word = line[rnd_ix]
-        for i in range(step):
+        for i in range(1, step+1):
             context_l = line[rnd_ix + i]
             context_r = line[rnd_ix + i]
             if word != context_l and (word, context_l) not in pairs:
@@ -84,7 +74,8 @@ def negative_sampling(freq_dict, positive_pairs):
 
     def get_negative_pair():
         return [
-            np.random.choice(list(freq_dict.keys()), p=list(freq_dict.values()))
+            np.random.choice(list(freq_dict.keys()),
+                             p=list(freq_dict.values()))
             for _ in range(2)]
 
     pos_length = len(positive_pairs)

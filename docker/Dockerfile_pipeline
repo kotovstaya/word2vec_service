@@ -1,0 +1,5 @@
+FROM python
+
+RUN apt-get update && apt-get install git libbz2-dev -y
+COPY ./../requirements.txt /srv/requirements.txt
+RUN python3 -m pip install -r /srv/requirements.txt

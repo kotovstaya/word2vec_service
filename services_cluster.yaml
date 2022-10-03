@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  pipeline:
+    image: image
+    tty: True
+    volumes:
+      - ./jb:/srv/jb
+      - ./data:/srv/data
+      - ./scripts:/srv/scripts
+      - ./git_clone:/srv/git_clone
