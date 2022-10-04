@@ -52,20 +52,18 @@ def get_word_probability_dict(corpus: tp.List[tp.List[str]]):
 
 
 def positive_sampling(line, window, count_in_line):
-    rnd_ixs = np.random.choice(
-        range(window//2+1, len(line)-(window//2)-1),
-        size=count_in_line, replace=False)
+    line_length = len(line)
+    rnd_ixs = np.random.choice(line_length - 1, size=count_in_line, replace=False)
     pairs = []
     step = window//2
     for rnd_ix in rnd_ixs:
+        left_bound = rnd_ix - step
+        right_bound = rnd_ix + step
         word = line[rnd_ix]
-        for i in range(1, step+1):
-            context_l = line[rnd_ix + i]
-            context_r = line[rnd_ix + i]
-            if word != context_l and (word, context_l) not in pairs:
-                pairs.append((word, context_l))
-            if word != context_r and (word, context_r) not in pairs:
-                pairs.append((word, context_r))
+        for i in set(range(line_length)) & set(range(left_bound, right_bound+1)):
+            context = line[i]
+            if word != context and (word, context) not in pairs:
+                pairs.append((word, context))
     return pairs
 
 
