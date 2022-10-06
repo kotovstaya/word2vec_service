@@ -26,7 +26,8 @@ class FormatterProxy(Formatter):
 class FileParser:
 
     def __init__(self, name_breakup_re_str: tp.Optional[str] = None):
-        self.NAME_BREAKUP_RE = re.compile(name_breakup_re_str if name_breakup_re_str else r"[^a-zA-Z]+")
+        self.NAME_BREAKUP_RE = re.compile(
+            name_breakup_re_str if name_breakup_re_str else r"[^a-zA-Z]+")
         self.names = []
 
     def extract_names(self, token):
@@ -67,18 +68,25 @@ class FileParser:
 
     def process_tokens(self, tokens) -> None:
         self.names = np.concatenate(
-            [list(self.extract_names(value)) for _type, value in tokens if _type[0] == "Name"]
+            [list(self.extract_names(value))
+             for _type, value in tokens if _type[0] == "Name"]
         )
 
     def parse(self, txt: str) -> tp.List[str]:
         lexer = get_lexer_for_filename("foo.py", txt)
-        pygments.highlight(txt, lexer, FormatterProxy(callback=self.process_tokens))
+        pygments.highlight(txt,
+                           lexer,
+                           FormatterProxy(callback=self.process_tokens))
         return self.names
 
 
 class FilesMerger:
-    def __init__(self, data_directory: str, raw_dataset_fpath: str, files_fpath: str):
-        self.file_descriptor = open(os.path.join(data_directory, raw_dataset_fpath), "a")
+    def __init__(self,
+                 data_directory: str,
+                 raw_dataset_fpath: str,
+                 files_fpath: str):
+        self.file_descriptor = open(
+            os.path.join(data_directory, raw_dataset_fpath), "a")
         self.data_directory = data_directory
         self.files_fpath = files_fpath
         self.FILES = set()
@@ -89,8 +97,14 @@ class FilesMerger:
 
     def close(self) -> None:
         self.file_descriptor.close()
-        files = pd.DataFrame(data={"file": [file for file in self.FILES if file.endswith('.py')]})
-        files.to_csv(f"{self.data_directory}/{self.files_fpath}", index=False, sep=";")
+        files = pd.DataFrame(
+            data={
+                "file": [file for file in self.FILES if file.endswith('.py')]
+            }
+        )
+        files.to_csv(f"{self.data_directory}/{self.files_fpath}",
+                     index=False,
+                     sep=";")
 
 
 class LocalFileReader:
@@ -146,7 +160,6 @@ class LocalRepositoryExtractor(BaseRepositoryExtractor):
 
 
 if __name__ == "__main__":
-
     data_folder = "./../data"
     repository_path = "./../git_clone/repo"
 
