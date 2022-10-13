@@ -10,6 +10,19 @@ from train_base import BaseTrainer
 
 class FromBoxTrainer(BaseTrainer):
     """
+    Use Word2Vec model from gensim package
+
+    Args:
+        :param vector_size:
+        :param window: context size
+        :param min_count: minimum number of occurence in the corpus for word
+        :param workers: how many processes we should you in the training process
+        :param sg: what type of algorithm we should choose
+        :param compute_loss: compute loss or not
+        :param epochs: how long will it take to train one model
+        :param corpus: List of prepared list of words
+    Methods:
+        see methods' description in a base class
 
     """
     def __init__(
@@ -20,8 +33,6 @@ class FromBoxTrainer(BaseTrainer):
             workers: int,
             sg: int,
             compute_loss: bool,
-            progress_per: int,
-            report_delay: int,
             epochs: int,
             corpus: tp.List[tp.List[str]]):
         super().__init__(epochs)
@@ -31,8 +42,6 @@ class FromBoxTrainer(BaseTrainer):
         self.workers = workers
         self.sg = sg
         self.compute_loss = compute_loss
-        self.progress_per = progress_per
-        self.report_delay = report_delay
         self.corpus = corpus
 
         self.model = self._init_model()
@@ -45,13 +54,12 @@ class FromBoxTrainer(BaseTrainer):
             workers=self.workers,
             sg=self.sg,
             compute_loss=self.compute_loss)
-        model.build_vocab(self.corpus, progress_per=self.progress_per)
+        model.build_vocab(self.corpus)
         return model
 
     def train_model(self):
         self.model.train(self.corpus,
                          total_examples=self.model.corpus_count,
-                         report_delay=self.report_delay,
                          epochs=self.epochs)
 
     def save_model(self, fpath):
@@ -81,8 +89,6 @@ def from_box(window_size: int,
         workers=5,
         sg=sg,
         compute_loss=True,
-        progress_per=1,
-        report_delay=1,
         epochs=epochs,
         corpus=corpus
     )
