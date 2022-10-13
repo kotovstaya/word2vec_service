@@ -13,7 +13,7 @@ class FromBoxTrainer(BaseTrainer):
     Use Word2Vec model from gensim package
 
     Args:
-        :param vector_size:
+        :param vector_size: size of embedding
         :param window: context size
         :param min_count: minimum number of occurence in the corpus for word
         :param workers: how many processes we should you in the training process
@@ -23,7 +23,6 @@ class FromBoxTrainer(BaseTrainer):
         :param corpus: List of prepared list of words
     Methods:
         see methods' description in a base class
-
     """
     def __init__(
             self,
