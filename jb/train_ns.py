@@ -1,14 +1,16 @@
 import os
-from torch.utils.data import DataLoader
-from models import NegativeSamplingWord2Vec
-import numpy as np
-from datasets import (NegativeSamplingWord2VecDataset,
-                      NegativeSamplingWord2VecWithCoocuranceDataset)
-import torch
+
 import click
+import numpy as np
+import torch
+import torch.optim as optim
 import tqdm
 from torch import nn
-import torch.optim as optim
+from torch.utils.data import DataLoader
+
+from datasets import (NegativeSamplingWord2VecDataset,
+                      NegativeSamplingWord2VecWithCoocuranceDataset)
+from models import NegativeSamplingWord2Vec
 from preprocessing import (
     preprocess_corpus,
     get_dictionary,

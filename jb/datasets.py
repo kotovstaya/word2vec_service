@@ -1,7 +1,9 @@
 import typing as tp
+
 import numpy as np
 import torch
 from torch.utils.data import Dataset
+
 from preprocessing import (
     positive_sampling,
     negative_sampling,
@@ -11,11 +13,19 @@ from preprocessing import (
 
 
 class VanillaWord2VecDataset(Dataset):
+
     def __init__(self,
                  corpus: tp.List[tp.List[str]],
                  dictionary: tp.Dict[str, int],
                  window: int,
                  count_in_line: int):
+        """
+
+        :param corpus:
+        :param dictionary:
+        :param window:
+        :param count_in_line:
+        """
         super().__init__()
         self.logger = get_logger(VanillaWord2VecDataset.__name__)
         self.corpus = corpus

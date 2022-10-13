@@ -1,20 +1,22 @@
 import os
+
 import click
 import numpy as np
-from torch.utils.data import DataLoader
-from models import VanillaWord2Vec
-from datasets import (
-    VanillaWord2VecWithCoocuranceDataset, VanillaWord2VecDataset)
 import torch
+import torch.optim as optim
 import tqdm
 from torch import nn
-import torch.optim as optim
+from torch.optim.lr_scheduler import StepLR
+from torch.utils.data import DataLoader
+
+from datasets import (
+    VanillaWord2VecWithCoocuranceDataset, VanillaWord2VecDataset)
+from models import VanillaWord2Vec
 from preprocessing import (
     preprocess_corpus,
     get_dictionary,
     get_word_probability_dict,
     coocurance_martix)
-from torch.optim.lr_scheduler import StepLR
 from train_base import BaseTrainer
 
 

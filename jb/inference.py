@@ -1,8 +1,10 @@
 import os
 import typing as tp
+
 import numpy as np
 import torch
 from gensim.models.word2vec import Word2Vec
+
 import preprocessing
 
 

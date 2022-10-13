@@ -1,10 +1,11 @@
 import os
 import typing as tp
 
-from gensim.models.word2vec import Word2Vec
-from train_base import BaseTrainer
-from preprocessing import preprocess_corpus
 import click
+from gensim.models.word2vec import Word2Vec
+
+from preprocessing import preprocess_corpus
+from train_base import BaseTrainer
 
 
 class FromBoxTrainer(BaseTrainer):

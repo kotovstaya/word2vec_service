@@ -1,10 +1,11 @@
-import typing as tp
-import gensim
 import itertools
-import tqdm
-import numpy as np
-from collections import Counter
 import logging
+import typing as tp
+from collections import Counter
+
+import gensim
+import numpy as np
+import tqdm
 
 
 def get_logger(name):

@@ -1,11 +1,13 @@
+import os
 import typing as tp
+
+import matplotlib.pyplot as plt
 import numpy as np
 import torch
-import os
-from umap import UMAP
-import matplotlib.pyplot as plt
-from sklearn.manifold import TSNE
 from gensim.models.word2vec import Word2Vec
+from sklearn.manifold import TSNE
+from umap import UMAP
+
 from preprocessing import get_dictionary, preprocess_corpus
 
 
