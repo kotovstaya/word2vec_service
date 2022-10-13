@@ -21,7 +21,7 @@ from train_base import BaseTrainer
 
 class CustomNegativeSamplingTrainer(BaseTrainer):
     """
-    Use Word2Vec model with negative sampling and train this model.
+    Use NegativeSamplingWord2Vec model with negative sampling and train this model.
 
     Args:
         :param dataloader: dataloader object with a specific dataset within

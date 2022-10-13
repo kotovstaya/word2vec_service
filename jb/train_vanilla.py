@@ -22,7 +22,16 @@ from train_base import BaseTrainer
 
 class CustomVanillaTrainer(BaseTrainer):
     """
+    Use VanillaWord2Vec model and train this model.
+    Args:
+        :param dataloader: dataloader object with a specific dataset within
+        :param vocab_size: size of input and output (the same) vocabularies
+        :param emb_dim: size of embedding
+        :param lr: learning rate
+        :param epochs: how long will it take to train one model
 
+    Methods:
+        see methods' description in a base class
     """
     def __init__(self,
                  dataloader: DataLoader,
