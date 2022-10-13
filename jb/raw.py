@@ -26,6 +26,7 @@ class FormatterProxy(Formatter):
 
 class FileParser:
     """
+    Class that helps to obtein words from file in proper way.
 
     """
     def __init__(self, name_breakup_re_str: tp.Optional[str] = None):
@@ -35,8 +36,10 @@ class FileParser:
 
     def extract_names(self, token):
         """
+        convert word to correct format
 
-        :param token:
+        Args:
+            :param token: object with word and some metainfo
         :return:
         """
         token = token.strip()
@@ -76,9 +79,12 @@ class FileParser:
 
     def process_tokens(self, tokens) -> None:
         """
+        Get prepared token.
+        Use only tokens with type = Name after pygments preprocessing.
 
-        :param tokens:
-        :return:
+        Args:
+            :param tokens: objects with word and some metainfo
+        :return: list of prepared words
         """
         self.names = np.concatenate(
             [list(self.extract_names(value))
@@ -87,8 +93,10 @@ class FileParser:
 
     def parse(self, txt: str) -> tp.List[str]:
         """
+        Get prepared words from raw file
 
-        :param txt:
+        Args:
+            :param txt: file as text
         :return:
         """
         lexer = get_lexer_for_filename("foo.py", txt)
@@ -100,7 +108,16 @@ class FileParser:
 
 class FilesMerger:
     """
+    Merge many files as text into one file
 
+    Args:
+        :param data_directory: where files store
+        :param raw_dataset_fpath: where does common file store
+        :param files_fpath: where does metainfo about files store
+
+    Methods:
+        merge - add new line with prepared words into common file
+        close - close file descriptor explicitly
     """
     def __init__(self,
                  data_directory: str,
@@ -134,7 +151,10 @@ class FilesMerger:
 
 class LocalFileReader:
     """
+    Class that help read file from local path
 
+    Methods:
+        read - input filepath and return file info as text
     """
     @classmethod
     def read(cls, path: str) -> str:
@@ -159,28 +179,22 @@ class BaseRepositoryExtractor:
 
 class LocalRepositoryExtractor(BaseRepositoryExtractor):
     """
-
+    Args:
+        :param repo_path: where is extracted repository in local path
+        :param file_merger: object that we use for file merging into one common file
+    Methods:
+        extract_recursively - recursively read .py files from repo and save data into one file
     """
-    def __init__(self, repo_path: str, file_merger: FilesMerger):
+    def __init__(self, repo_path: str, file_merger: FilesMerger) -> None:
         super().__init__(file_merger)
         self.repo_path = repo_path
         self.logger = get_logger(LocalRepositoryExtractor.__name__)
 
-    def _get_text(self, filepath):
-        txt = LocalFileReader().read(filepath)
-        return txt
+    def _get_text(self, filepath: str) -> str:
+        return LocalFileReader().read(filepath)
 
-    def extract_recursively(self):
-        """
-
-        :return:
-        """
+    def extract_recursively(self) -> None:
         def _inner_rec_func(base_path: str):
-            """
-
-            :param base_path:
-            :return:
-            """
             for file in os.listdir(base_path):
                 path = os.path.join(base_path, file)
                 if os.path.isdir(path):
