@@ -164,7 +164,7 @@ class LocalFileReader:
 
 class BaseRepositoryExtractor:
     """
-
+    Parent class for extractors of Repository
     """
     def __init__(self, file_merger):
         self.NAMES = []
