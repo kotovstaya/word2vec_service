@@ -20,6 +20,9 @@ from train_base import BaseTrainer
 
 
 class CustomNegativeSamplingTrainer(BaseTrainer):
+    """
+
+    """
     def __init__(self,
                  dataloader: DataLoader,
                  vocab_size: int,

@@ -13,19 +13,25 @@ from preprocessing import (
 
 
 class VanillaWord2VecDataset(Dataset):
+    """
+    Dataset object for vanilla word2vec implementation.
+    Vanilla means that you use word id for the input and predict a distribution:
+    you have N neurons on the output layer. Each neuron is score for specific word in the vocabulary.
+
+    FYI: this dataset object doesn't use a co-occurrence matrix.
+
+    Args:
+        :param corpus: List of prepared list of words
+        :param dictionary: mapping from a word to a word index
+        :param window: what is a width of our context size
+        :param count_in_line: how many samples should we get from one line in corpus
+    """
 
     def __init__(self,
                  corpus: tp.List[tp.List[str]],
                  dictionary: tp.Dict[str, int],
                  window: int,
                  count_in_line: int):
-        """
-
-        :param corpus:
-        :param dictionary:
-        :param window:
-        :param count_in_line:
-        """
         super().__init__()
         self.logger = get_logger(VanillaWord2VecDataset.__name__)
         self.corpus = corpus
@@ -40,8 +46,8 @@ class VanillaWord2VecDataset(Dataset):
         line = self.corpus[idx]
         pos_samples = positive_sampling(line, self.window, self.count_in_line)
         if not len(pos_samples):
-            print(f"pos_samples: {pos_samples}")
-            print(line)
+            self.logger.info(f"pos_samples: {pos_samples}")
+            self.logger.info(line)
 
         words = np.array([self.dictionary[el[0]] for el in pos_samples])
         contexts = np.array([self.dictionary[el[1]] for el in pos_samples])
@@ -56,6 +62,21 @@ class VanillaWord2VecDataset(Dataset):
 
 
 class VanillaWord2VecWithCoocuranceDataset(Dataset):
+    """
+
+    Dataset object for vanilla word2vec implementation.
+    Vanilla means that you use word id for the input and predict a distribution:
+    you have N neurons on the output layer. Each neuron is score for specific word in the vocabulary.
+
+    FYI: this dataset object use a co-occurrence matrix.
+
+
+    Args:
+        :param corpus: List of prepared list of words
+        :param coocurance: matrix. if coocurance[i, j] == 1 then this two indexes are in one context window
+        :param count_in_line: how many samples should we get from one line in corpus
+
+    """
     def __init__(self, corpus: tp.List[tp.List[str]],
                  coocurance: np.array, count_in_line: int):
         self.logger = get_logger(VanillaWord2VecWithCoocuranceDataset.__name__)
@@ -81,6 +102,21 @@ class VanillaWord2VecWithCoocuranceDataset(Dataset):
 
 
 class NegativeSamplingWord2VecDataset(Dataset):
+    """
+    Dataset object for word2vec implementation with the negative sampling.
+    Negative sampling means that you use positive pairs and negative pairs for training.
+    You're trying to resolve classification problem for two classes.
+
+    FYI: this dataset object doesn't use a co-occurrence matrix.
+
+    Args:
+        :param corpus: List of prepared list of words
+        :param freq_dictionary: mapping from a word to a frequency of this word in the corpus
+        :param dictionary: mapping from a word to a word index
+        :param window: what is a width of our context size
+        :param count_in_line: how many samples should we get from one line in corpus
+
+    """
     def __init__(self,
                  corpus: tp.List[tp.List[str]],
                  freq_dictionary: tp.Dict[str, float],
@@ -133,6 +169,21 @@ class NegativeSamplingWord2VecDataset(Dataset):
 
 
 class NegativeSamplingWord2VecWithCoocuranceDataset(Dataset):
+    """
+    Dataset object for word2vec implementation with the negative sampling.
+    Negative sampling means that you use positive pairs and negative pairs for training.
+    You're trying to resolve classification problem for two classes.
+
+    FYI: this dataset object use a co-occurrence matrix.
+
+    Args:
+        :param corpus: List of prepared list of words
+        :param coocurance: matrix. if coocurance[i, j] == 1 then this two indexes are in one context window
+        :param freq_dictionary: mapping from a word to a frequency of this word in the corpus
+        :param vocab: mapping from a word to a word index
+        :param count_in_line: how many samples should we get from one line in corpus
+
+    """
     def __init__(self,
                  corpus: tp.List[tp.List[str]],
                  coocurance: np.array,

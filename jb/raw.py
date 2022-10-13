@@ -25,13 +25,20 @@ class FormatterProxy(Formatter):
 
 
 class FileParser:
+    """
 
+    """
     def __init__(self, name_breakup_re_str: tp.Optional[str] = None):
         self.NAME_BREAKUP_RE = re.compile(
             name_breakup_re_str if name_breakup_re_str else r"[^a-zA-Z]+")
         self.names = []
 
     def extract_names(self, token):
+        """
+
+        :param token:
+        :return:
+        """
         token = token.strip()
         prev_p = [""]
 
@@ -68,12 +75,22 @@ class FileParser:
                 yield from ret(last)
 
     def process_tokens(self, tokens) -> None:
+        """
+
+        :param tokens:
+        :return:
+        """
         self.names = np.concatenate(
             [list(self.extract_names(value))
              for _type, value in tokens if _type[0] == "Name"]
         )
 
     def parse(self, txt: str) -> tp.List[str]:
+        """
+
+        :param txt:
+        :return:
+        """
         lexer = get_lexer_for_filename("foo.py", txt)
         pygments.highlight(txt,
                            lexer,
@@ -82,6 +99,9 @@ class FileParser:
 
 
 class FilesMerger:
+    """
+
+    """
     def __init__(self,
                  data_directory: str,
                  raw_dataset_fpath: str,
@@ -97,6 +117,10 @@ class FilesMerger:
         self.file_descriptor.write(f"{' '.join(entities)}\n")
 
     def close(self) -> None:
+        """
+
+        :return:
+        """
         self.file_descriptor.close()
         files = pd.DataFrame(
             data={
@@ -109,6 +133,9 @@ class FilesMerger:
 
 
 class LocalFileReader:
+    """
+
+    """
     @classmethod
     def read(cls, path: str) -> str:
         with open(path, "r") as f:
@@ -116,6 +143,9 @@ class LocalFileReader:
 
 
 class BaseRepositoryExtractor:
+    """
+
+    """
     def __init__(self, file_merger):
         self.NAMES = []
         self.file_merger = file_merger
@@ -128,6 +158,9 @@ class BaseRepositoryExtractor:
 
 
 class LocalRepositoryExtractor(BaseRepositoryExtractor):
+    """
+
+    """
     def __init__(self, repo_path: str, file_merger: FilesMerger):
         super().__init__(file_merger)
         self.repo_path = repo_path
@@ -138,7 +171,16 @@ class LocalRepositoryExtractor(BaseRepositoryExtractor):
         return txt
 
     def extract_recursively(self):
+        """
+
+        :return:
+        """
         def _inner_rec_func(base_path: str):
+            """
+
+            :param base_path:
+            :return:
+            """
             for file in os.listdir(base_path):
                 path = os.path.join(base_path, file)
                 if os.path.isdir(path):

@@ -21,6 +21,9 @@ from train_base import BaseTrainer
 
 
 class CustomVanillaTrainer(BaseTrainer):
+    """
+
+    """
     def __init__(self,
                  dataloader: DataLoader,
                  vocab_size: int,

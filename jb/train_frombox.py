@@ -9,6 +9,9 @@ from train_base import BaseTrainer
 
 
 class FromBoxTrainer(BaseTrainer):
+    """
+
+    """
     def __init__(
             self,
             vector_size: int,

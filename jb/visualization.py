@@ -12,7 +12,13 @@ from preprocessing import get_dictionary, preprocess_corpus
 
 
 def get_word2vec_embeddings_as_array(corpus_path: str,
-                                      model_path: str) -> np.array:
+                                     model_path: str) -> np.array:
+    """
+
+    :param corpus_path:
+    :param model_path:
+    :return:
+    """
     model = Word2Vec.load(model_path)
 
     corpus = preprocess_corpus(corpus_path, limit=None)
@@ -35,6 +41,11 @@ def get_word2vec_embeddings_as_array(corpus_path: str,
 
 
 def get_custom_word2vec_embeddings_as_array(model_path: str) -> np.array:
+    """
+
+    :param model_path:
+    :return:
+    """
     model = torch.load(model_path)
     print(model.get_embeddings()[0, :10])
     embeddings = model.get_embeddings()
@@ -43,6 +54,13 @@ def get_custom_word2vec_embeddings_as_array(model_path: str) -> np.array:
 
 def get_reducer_embeddings(reducer_class: tp.Any, embeddings: np.array,
                            n_components: int) -> np.array:
+    """
+
+    :param reducer_class:
+    :param embeddings:
+    :param n_components:
+    :return:
+    """
     reducer = reducer_class(n_components=n_components)
     return reducer.fit_transform(embeddings)
 
@@ -57,6 +75,13 @@ def get_umap_embeddings(embeddings: np.array, n_components: int) -> np.array:
 
 def plot_representation(embeddings: np.array, title: str,
                         filepath: str) -> None:
+    """
+
+    :param embeddings:
+    :param title:
+    :param filepath:
+    :return:
+    """
     plt.figure(figsize=(10, 5))
     plt.grid()
     plt.scatter(embeddings[:, 0], embeddings[:, 1])

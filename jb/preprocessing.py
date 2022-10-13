@@ -22,6 +22,12 @@ def get_logger(name):
 def preprocess_corpus(path: str,
                       limit: tp.Optional[int] = None
                       ) -> tp.List[tp.List[str]]:
+    """
+
+    :param path:
+    :param limit:
+    :return:
+    """
     corpus = []
     step = 200
     with open(path, "r") as f:
@@ -42,6 +48,11 @@ def preprocess_corpus(path: str,
 
 
 def get_dictionary(corpus: tp.List[tp.List[str]]):
+    """
+
+    :param corpus:
+    :return:
+    """
     flatten_corpus = list(itertools.chain.from_iterable(corpus))
     dictionary = {word: index
                   for index, word in enumerate(
@@ -52,6 +63,11 @@ def get_dictionary(corpus: tp.List[tp.List[str]]):
 
 
 def get_word_probability_dict(corpus: tp.List[tp.List[str]]):
+    """
+
+    :param corpus:
+    :return:
+    """
     flatten_corpus = list(itertools.chain.from_iterable(corpus)) + ["<unk>"]
     tmp_freq_dict = dict(Counter(flatten_corpus))
     for k in tmp_freq_dict.keys():
@@ -63,6 +79,13 @@ def get_word_probability_dict(corpus: tp.List[tp.List[str]]):
 def coocurance_martix(corpus: tp.List[tp.List[str]],
                       dictionary: tp.Dict[str, int],
                       window: int) -> np.ndarray:
+    """
+
+    :param corpus:
+    :param dictionary:
+    :param window:
+    :return:
+    """
     dict_lnegth = len(dictionary.keys())
     mtx = np.zeros(shape=(dict_lnegth, dict_lnegth))
     step = window//2
@@ -81,10 +104,17 @@ def coocurance_martix(corpus: tp.List[tp.List[str]],
     return mtx
 
 
-def positive_sampling(line, window, count_in_line):
+def positive_sampling(line: tp.List[str],
+                      window: int,
+                      count_in_line: int):
+    """
+
+    :param line:
+    :param window:
+    :param count_in_line:
+    :return:
+    """
     line_length = len(line)
-    # print(f"line_length: {line_length}")
-    # print(f"count_in_line: {count_in_line}")
     rnd_ixs = np.random.choice(line_length - 1,
                                size=count_in_line,
                                replace=False)
@@ -102,10 +132,21 @@ def positive_sampling(line, window, count_in_line):
     return pairs
 
 
-def negative_sampling(freq_dict, positive_pairs):
+def negative_sampling(freq_dict: tp.Dict[str, float],
+                      positive_pairs: tp.List[tp.Tuple[str, str]]):
+    """
+
+    :param freq_dict:
+    :param positive_pairs:
+    :return:
+    """
     pairs = []
 
     def get_negative_pair():
+        """
+
+        :return:
+        """
         return [
             np.random.choice(list(freq_dict.keys()),
                              p=list(freq_dict.values()))
@@ -121,7 +162,16 @@ def negative_sampling(freq_dict, positive_pairs):
     return pairs
 
 
-def negative_coocurance_sampling(freq_dict, vocab, N):
+def negative_coocurance_sampling(freq_dict: tp.Dict[str, float],
+                                 vocab: tp.Dict[str, int],
+                                 N: int):
+    """
+
+    :param freq_dict:
+    :param vocab:
+    :param N:
+    :return:
+    """
     pairs = [
         [
             vocab[

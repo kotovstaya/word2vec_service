@@ -3,6 +3,9 @@ from torch import nn
 
 
 class VanillaWord2Vec(nn.Module):
+    """
+
+    """
     def __init__(self, vocab_size: int, emb_dim: int):
         super().__init__()
         self.vocab_size = vocab_size
@@ -22,6 +25,9 @@ class VanillaWord2Vec(nn.Module):
 
 
 class NegativeSamplingWord2Vec(nn.Module):
+    """
+
+    """
     def __init__(self, vocab_size: int, emb_dim: int):
         super().__init__()
         self.vocab_size = vocab_size

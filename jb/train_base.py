@@ -2,6 +2,9 @@ from preprocessing import get_logger
 
 
 class BaseTrainer:
+    """
+
+    """
     def __init__(self, epochs):
         self.epochs = epochs
         self.logger = get_logger(BaseTrainer.__name__)
