@@ -1,1 +1,1 @@
-# jetbrains_test
+# word2vec_impl

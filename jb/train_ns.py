@@ -149,7 +149,7 @@ def coocurance_ns(count_in_line: int,
         dataloader=dataloader,
         vocab_size=len(dictionary.keys()),
         emb_dim=emb_dim,
-        lr=1e-3,
+        lr=1e-2,
         epochs=epochs
     )
     ct.train_model()

@@ -101,7 +101,7 @@ def vanilla(window_size: int,
         dataloader=dataloader,
         vocab_size=len(dictionary.keys()),
         emb_dim=emb_dim,
-        lr=1e-4,
+        lr=1e-2,
         epochs=epochs
     )
     ct.train_model()
