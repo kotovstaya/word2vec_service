@@ -4,7 +4,13 @@ from torch import nn
 
 class VanillaWord2Vec(nn.Module):
     """
+    Model object for vanilla word2vec implementation.
+    Input - index for a specific word
+    Output - distribution of scores for each word in the vocabulary
 
+    Args:
+        :param vocab_size: size of input and output (the same) vocabularies
+        :param emb_dim: a lookup embedding size
     """
     def __init__(self, vocab_size: int, emb_dim: int):
         super().__init__()
@@ -13,7 +19,6 @@ class VanillaWord2Vec(nn.Module):
         self.lookup = nn.Embedding(num_embeddings=self.vocab_size,
                                    embedding_dim=self.emb_dim, max_norm=1.)
         self.fc = nn.Linear(self.emb_dim, vocab_size)
-        # self.softmax = nn.Softmax()
 
     def forward(self, word_vector):
         wv = self.lookup(word_vector)[:, 0, :]
@@ -26,7 +31,13 @@ class VanillaWord2Vec(nn.Module):
 
 class NegativeSamplingWord2Vec(nn.Module):
     """
+    Model object for negative sampling word2vec implementation.
+    Input - indexes for a specific word and specific word in the context
+    Output - score that tries to answer the question: how close are these words?
 
+    Args:
+        :param vocab_size: size of input and output (the same) vocabularies
+        :param emb_dim: a lookup embedding size
     """
     def __init__(self, vocab_size: int, emb_dim: int):
         super().__init__()
