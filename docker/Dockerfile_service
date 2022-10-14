@@ -3,3 +3,5 @@ FROM python
 RUN apt-get update && apt-get install git libbz2-dev -y
 COPY ./../service_requirements.txt /srv/service_requirements.txt
 RUN python3 -m pip install -r /srv/service_requirements.txt
+
+WORKDIR /srv/scripts
