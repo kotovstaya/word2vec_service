@@ -1,12 +1,14 @@
 # word2vec_from_scratch
 
-This repository can show you some word2vec model and datasets implementations.
+This repository can show you an implementation of some word2vec models and datasets.
 You can change parameters and train specific model for yourself.
 
 Tasks:
-1. Clone one repository that contains a huge amount of .py files (for example)
+1. Clone one repository that contains a huge amount of .py files (for example). For example pyTorch
 2. Extract only Name entities from these files. Name entities is the thing thas hase type[0] == Name after running the algorithm from pygments package. 
 3. Develop word2vec model with gensim or other implementation.
+
+What can you see? After word2vec model training you can choose one word from these .py files and find top close words by context. 
 
 At this time 3 different variants of that algorithm have implemented:
 1. Word2vec class from gensim
@@ -32,4 +34,3 @@ How can I launch it?
 13. go to /localhost/prediction/<word_from_vocabulary>
 14. You can see models' result
 ```
-
