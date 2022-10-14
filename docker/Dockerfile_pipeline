@@ -1,5 +1,7 @@
 FROM python
 
 RUN apt-get update && apt-get install git libbz2-dev -y
-COPY ./../requirements.txt /srv/requirements.txt
-RUN python3 -m pip install -r /srv/requirements.txt
+COPY ./../pipeline_requirements.txt /srv/pipeline_requirements.txt
+RUN python3 -m pip install -r /srv/pipeline_requirements.txt
+
+WORKDIR /srv/scripts

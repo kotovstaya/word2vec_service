@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content %}
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <div class="h1">Gensim Word2Vec</div>
+                <table class="table">
+                    <caption>Table with recommendations for word: {{ search_word }}</caption>
+                    <thead>
+                    <tr>
+                        <th>Word</th>
+                        <th>Score</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for word, score in similarity_gensim %}
+                        <tr>
+                            <td> {{ word }} </td>
+                            <td> {{ score }} </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <div class="h1">Vanilla Word2Vec</div>
+                <table class="table">
+                    <caption>Table with recommendations for word: {{ search_word }}</caption>
+                    <thead>
+                    <tr>
+                        <th>Word</th>
+                        <th>Score</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for word, score in vanilla_similarity %}
+                        <tr>
+                            <td> {{ word }} </td>
+                            <td> {{ score }} </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <div class="h1">Negative Sampling Word2Vec</div>
+                <table class="table">
+                    <caption>Table with recommendations for word: {{ search_word }}</caption>
+                    <thead>
+                    <tr>
+                        <th>Word</th>
+                        <th>Score</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for word, score in ns_similarity %}
+                        <tr>
+                            <td> {{ word }} </td>
+                            <td> {{ score }} </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+{% endblock %}
+
+

@@ -1,0 +1,1 @@
+cd ./../ && docker build -f ./docker/Dockerfile_service -t service_image .

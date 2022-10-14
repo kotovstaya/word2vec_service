@@ -1,1 +1,1 @@
-cd ./../ && docker build -f ./docker/Dockerfile_pipeline -t image .
+cd ./../ && docker build -f ./docker/Dockerfile_pipeline -t pipeline_image .

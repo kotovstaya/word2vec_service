@@ -58,6 +58,7 @@ class CustomVanillaTrainer(BaseTrainer):
             running_loss = 0.0
             counter = 0
             for i, (words, contexts) in tqdm.tqdm(enumerate(self.dataloader)):
+                print(words.shape)
                 self.optimizer.zero_grad()
 
                 outputs = self.model.forward(words)
@@ -67,6 +68,7 @@ class CustomVanillaTrainer(BaseTrainer):
 
                 running_loss += loss.item()
                 counter += 1
+                break
             self.scheduler.step()
             self.logger.warning(
                 f"[{epoch + 1}] loss: {running_loss / counter:.3f}")
@@ -92,7 +94,7 @@ def vanilla(window_size: int,
             batch_size: int,
             emb_dim: int,
             epochs: int,):
-    model_fpath = os.path.join(root_folder, "vanilla_word2vec_model")
+    model_fpath = os.path.join(root_folder, "vanilla_word2vec_model.pt")
 
     ds = VanillaWord2VecDataset(
         corpus=corpus,
@@ -133,7 +135,7 @@ def coocurance_vanilla(
                        emb_dim: int,
                        epochs: int,):
     model_fpath = os.path.join(root_folder,
-                               "coocurance_vanilla_word2vec_model")
+                               "coocurance_vanilla_word2vec_model.pt")
     try:
         mtx = np.load(os.path.join(root_folder, "coocurance_matrix.npy"))
     except Exception as ex:
